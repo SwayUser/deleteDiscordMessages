@@ -13,21 +13,40 @@ link = "javascript:" + p.quote(a)
 h = hashlib.sha256(link.encode()).hexdigest()
 commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True).stdout.decode()
 html=f"""<html>
+<head>
+<style>
+.bookmark, .bookmark:visited {{
+    background-color: #99cc99;
+    border-radius: 10px;
+    padding: 0.2rem;
+    font-weight: bold;
+    text-decoration: none;
+}}
+</style>
+</head>
 <body>
-<a href="{link}">Delete Discord Messages</a>
+<img src="https://user-images.githubusercontent.com/3372598/64500336-28ea9b00-d293-11e9-8c24-eac6b98e04c0.png" style="max-width:100%;" height="600"><br>
+Drag this link <a class="bookmark"href="{link}">Delete Discord Messages</a> into your bookmarks bar, then open Discord and click on the bookmark.
+<h2>Features</h2>
+<ul>
+<li>Fastest script out there, it auto adjusts the delay to be the fastest your internet and discords allows!</li>
+<li>Easy interface with instructions</li>
+<li>Respect discord API rate limits</li>
+<li>Auto detect current <a href="/SwayUser/deleteDiscordMessages/blob/master/help/authToken.md">authToken</a>, <a href="/SwayUser/deleteDiscordMessages/blob/master/help/authorId.md">authorId</a>, <a href="/SwayUser/deleteDiscordMessages/blob/master/help/channelId.md">channelId</a></li>
+<li>It can delete a specific <a href="/SwayUser/deleteDiscordMessages/blob/master/help/messageId.md">range of messages</a></li>
+<li>It can delete only <a href="/SwayUser/deleteDiscordMessages/blob/master/help/filters.md">links or attached files</a></li>
+<li>Comprehensive log of messages being deleted (with their content)</li>
+<li>Hide private information for taking screenshots</li>
+<li>Detects system messages and skips them like "You started a voice call"</li>
+<li>You can use your computer and discord while it is running (unlike macro key scripts)</li>
+<li>Start/stop whenever you want</li>
+<li>Works with even thousands of messages</li>
+</ul>
+The original repo can be found at <a href="https://github.com/victornpb/deleteDiscordMessages">https://github.com/victornpb/deleteDiscordMessages</a>.
 <br><br>
-<b>Hash:</b> {h}<br>
 <b>Generated from commit:</b> {commit}<br>
-To check the authenticity of the bookmarklet you can generate this HTML file yourself by using the `make-bookmark` script.
+To check the authenticity of the bookmarklet you can generate this HTML file yourself by using the `<a href="https://github.com/SwayUser/deleteDiscordMessages/blob/master/make-bookmark">make-bookmark</a>` script and then compare the hash of this file.
 </body>
 </html>"""
-markdown = f"""<a href="{link}">Delete Discord Messages</a>
-
-*Hash:* {h}
-*Generated from commit:* {commit}
-To check the authenticity of the bookmarklet you can generate this HTML file yourself by using the `make-bookmark` script.
-"""
 with open("bookmark.html", "w") as f:
     f.write(html)
-with open("bookmark.md", "w") as f:
-    f.write(markdown)

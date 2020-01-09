@@ -6,7 +6,7 @@ git diff --name-only HEAD^..HEAD | while read FILE; do
     if [ "$FILE" = "deleteDiscordMessages.js" ]; then
         echo "Generating bookmark"
         ./make-bookmark
-        git add bookmark.html bookmark.md
+        git add bookmark.html
         git commit -m "Update bookmark"
     fi
 done
