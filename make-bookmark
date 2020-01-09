@@ -14,6 +14,7 @@ h = hashlib.sha256(link.encode()).hexdigest()
 commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True).stdout.decode()
 html=f"""<html>
 <head>
+<title>Delete all messages in a Discord channel or DM</title>
 <style>
 .bookmark, .bookmark:visited {{
     background-color: #99cc99;
@@ -25,8 +26,9 @@ html=f"""<html>
 </style>
 </head>
 <body>
+<h1>Delete all messages in a Discord channel or DM</h1>
 <img src="https://user-images.githubusercontent.com/3372598/64500336-28ea9b00-d293-11e9-8c24-eac6b98e04c0.png" style="max-width:100%;" height="600"><br>
-Drag this link <a class="bookmark"href="{link}">Delete Discord Messages</a> into your bookmarks bar, then open Discord and click on the bookmark.
+Drag this link <a class="bookmark" href="{link}">Delete Discord Messages</a> into your bookmarks bar, then open Discord and click on the bookmark.
 <h2>Features</h2>
 <ul>
 <li>Fastest script out there, it auto adjusts the delay to be the fastest your internet and discords allows!</li>
@@ -44,7 +46,7 @@ Drag this link <a class="bookmark"href="{link}">Delete Discord Messages</a> into
 </ul>
 The original repo can be found at <a href="https://github.com/victornpb/deleteDiscordMessages">https://github.com/victornpb/deleteDiscordMessages</a>.
 <br><br>
-<b>Generated from commit:</b> {commit}<br>
+<b>Generated from commit:</b> <a href="https://github.com/SwayUser/deleteDiscordMessages/tree/{commit}">{commit}</a><br>
 To check the authenticity of the bookmarklet you can generate this HTML file yourself by using the `<a href="https://github.com/SwayUser/deleteDiscordMessages/blob/master/make-bookmark">make-bookmark</a>` script and then compare the hash of this file.
 </body>
 </html>"""
