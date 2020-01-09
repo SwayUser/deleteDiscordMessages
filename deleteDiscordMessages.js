@@ -250,13 +250,13 @@
 
             if (myMessages.length > 0) {
 
-                if (iterations < 1) {
-                    log.verb(`Waiting for your confirmation...`);
-                    if (!await ask(`Do you want to delete ~${total} messages?\nEstimated time: ${etr}\n\n---- Preview ----\n` +
-                        myMessages.map(m => `${m.author.username}#${m.author.discriminator}: ${m.attachments.length ? '[ATTACHMENTS]' : m.content}`).join('\n')))
-                            return end(log.error('Aborted by you!'));
-                    log.verb(`OK`);
-                }
+                //if (iterations < 1) {
+                //    log.verb(`Waiting for your confirmation...`);
+                //    if (!await ask(`Do you want to delete ~${total} messages?\nEstimated time: ${etr}\n\n---- Preview ----\n` +
+                //        myMessages.map(m => `${m.author.username}#${m.author.discriminator}: ${m.attachments.length ? '[ATTACHMENTS]' : m.content}`).join('\n')))
+                //            return end(log.error('Aborted by you!'));
+                //    log.verb(`OK`);
+                //}
 
                 for (let i = 0; i < deletableMessages.length; i++) {
                     const message = deletableMessages[i];
