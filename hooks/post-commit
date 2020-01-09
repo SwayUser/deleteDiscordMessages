@@ -1,0 +1,12 @@
+#!/bin/sh
+COMMIT="$(git rev-parse HEAD)"
+
+git diff --name-only HEAD^..HEAD | while read FILE; do
+    echo $FILE
+    if [ "$FILE" = "deleteDiscordMessages.js" ]; then
+        echo "Generating bookmark"
+        ./make-bookmark
+        git add bookmark.html bookmark.md
+        git commit -m "Update bookmark"
+    fi
+done
