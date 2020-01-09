@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+import sys
+import re
+import hashlib
+import subprocess
+import urllib.parse as p
+
+a = ""
+with open("deleteDiscordMessages.js") as f:
+    a = f.read()
+a = re.sub("(^|\n)//.*", "", a)
+link = "javascript:" + p.quote(a)
+h = hashlib.sha256(link.encode()).hexdigest()
+commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True).stdout.decode()
+html=f"""<html>
+<body>
+<a href="{link}">Delete Discord Messages</a>
+<br><br>
+<b>Hash:</b> {h}<br>
+<b>Generated from commit:</b> {commit}<br>
+To check the authenticity of the bookmarklet you can generate this HTML file yourself by using the `make-bookmark` script.
+</body>
+</html>"""
+markdown = f"""<a href="{link}">Delete Discord Messages</a>
+
+*Hash:* {h}
+*Generated from commit:* {commit}
+To check the authenticity of the bookmarklet you can generate this HTML file yourself by using the `make-bookmark` script.
+"""
+with open("bookmark.html", "w") as f:
+    f.write(html)
+with open("bookmark.md", "w") as f:
+    f.write(markdown)
