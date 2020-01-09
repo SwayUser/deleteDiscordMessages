@@ -111,7 +111,6 @@
         if (autoScroll.checked) logArea.querySelector('div:last-child').scrollIntoView(false);
     };
 
-    return 'Looking good!';
     /**
      * Delete all messages in a Discord channel or DM
      * @param {string} authToken Your authorization token
@@ -147,7 +146,7 @@
             return;
         }
         let channelId = channelIds[0];
-       
+
         const wait = async ms => new Promise(done => setTimeout(done, ms));
         const msToHMS = s => `${s / 3.6e6 | 0}h ${(s % 3.6e6) / 6e4 | 0}m ${(s % 6e4) / 1000 | 0}s`;
         const escapeHTML = html => html.replace(/[&<"']/g, m => ({ '&': '&amp;', '<': '&lt;', '"': '&quot;', '\'': '&#039;' })[m]);
@@ -179,7 +178,7 @@
             const headers = {
                 'Authorization': authToken
             };
-            
+
             let resp;
             try {
                 const s = Date.now();
@@ -201,7 +200,7 @@
             } catch (err) {
                 return log.error('Search request throwed an error:', err);
             }
-    
+
             // not indexed yet
             if (resp.status === 202) {
                 const w = (await resp.json()).retry_after;
@@ -211,7 +210,7 @@
                 await wait(w);
                 return await recurse();
             }
-    
+
             if (!resp.ok) {
                 // searching messages too fast
                 if (resp.status === 429) {
@@ -222,14 +221,14 @@
                     log.warn(`Being rate limited by the API for ${w}ms! Increasing search delay...`);
                     printDelayStats();
                     log.verb(`Cooling down for ${w * 2}ms before retrying...`);
-                    
+
                     await wait(w*2);
                     return await recurse();
                 } else {
                     return log.error(`Error searching messages, API responded with status ${resp.status}!\n`, await resp.json());
                 }
             }
-    
+
             const data = await resp.json();
             const total = data.total_results;
             if (!grandTotal) grandTotal = total;
@@ -247,8 +246,8 @@
             log.info(`Total messages found: ${data.total_results}`, `(Messages in current page: ${data.messages.length}, Author: ${deletableMessages.length}, System: ${systemMessages.length})`, `offset: ${offset}`);
             printDelayStats();
             log.verb(`Estimated time remaining: ${etr}`)
-            
-            
+
+
             if (myMessages.length > 0) {
 
                 if (iterations < 1) {
@@ -258,7 +257,7 @@
                             return end(log.error('Aborted by you!'));
                     log.verb(`OK`);
                 }
-                
+
                 for (let i = 0; i < deletableMessages.length; i++) {
                     const message = deletableMessages[i];
                     if (stopHndl && stopHndl()===false) return end(log.error('Stopped by you!'));
@@ -266,7 +265,7 @@
                     log.debug(`${((delCount + 1) / grandTotal * 100).toFixed(2)}% (${delCount + 1}/${grandTotal})`,
                         `Deleting ID:${redact(message.id)} <b>${redact(message.author.username+'#'+message.author.discriminator)} <small>(${redact(new Date(message.timestamp).toLocaleString())})</small>:</b> <i>${redact(message.content).replace(/\n/g,'↵')}</i>`,
                         message.attachments.length ? redact(JSON.stringify(message.attachments)) : '');
-                    
+
                     let resp;
                     try {
                         const s = Date.now();
@@ -302,7 +301,7 @@
                             failCount++;
                         }
                     }
-                    
+
                     await wait(deleteDelay);
                 }
 
@@ -311,7 +310,7 @@
                     offset += systemMessages.length;
                     log.verb(`Found ${systemMessages.length} system messages! Decreasing grandTotal to ${grandTotal} and increasing offset to ${offset}.`);
                 }
-                
+
                 log.verb(`Searching next messages in ${searchDelay}ms...`, (offset ? `(offset: ${offset})` : '') );
                 await wait(searchDelay);
 
